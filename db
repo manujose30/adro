@@ -1,0 +1,211 @@
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+   <EditText
+       android:id="@+id/stid"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="64dp"
+       android:ems="10"
+       android:inputType="textPersonName"
+       android:text="RollNo"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.502"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <EditText
+       android:id="@+id/name"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="40dp"
+       android:ems="10"
+       android:inputType="textPersonName"
+       android:text="Name"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.497"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/stid" />
+
+   <EditText
+       android:id="@+id/address"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="40dp"
+       android:ems="10"
+       android:inputType="textPersonName"
+       android:text=""
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.502"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/name" />
+
+   <Button
+       android:id="@+id/up"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="88dp"
+       android:text="Update"
+       android:onClick="stdUpdate"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.166"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/address" />
+
+   <Button
+       android:id="@+id/del"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="88dp"
+       android:text="Delete"
+       android:onClick="stdDelete"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.605"
+       app:layout_constraintStart_toEndOf="@+id/up"
+       app:layout_constraintTop_toBottomOf="@+id/address" />
+
+   <Button
+       android:id="@+id/read"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="56dp"
+       android:layout_marginTop="100dp"
+       android:text="Read"
+       android:onClick="stdRead"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/up" />
+
+   <Button
+       android:id="@+id/edit"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="100dp"
+       android:text="Insert"
+       android:onClick="stdInsert"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.601"
+       app:layout_constraintStart_toEndOf="@+id/read"
+       app:layout_constraintTop_toBottomOf="@+id/del" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+MainActivity.java
+package com.example.data;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+   EditText t1,t2,t3;
+   DbHelper helper= new DbHelper(this);//Create object for Db helper
+   SQLiteDatabase db;
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+       db=helper.getReadableDatabase();
+       db=helper.getWritableDatabase();
+       t3=findViewById(R.id.stid);
+       t1=findViewById(R.id.name);
+       t2=findViewById(R.id.address);
+
+
+
+   }
+
+
+   public void stdInsert(View view) {
+       int rid= Integer.parseInt(t3.getText().toString());
+       String name =t1.getText().toString();
+       String add =t2.getText().toString();
+       ContentValues data=new ContentValues();
+       data.put("rollno",rid);
+       data.put("name",name);
+       data.put("address",add);
+       db.insert("tbl_sdetails",null,data);
+       Toast.makeText(this,"Inserted",Toast.LENGTH_LONG).show();
+   }
+
+   public void stdRead(View view) {
+       StringBuffer buffer=new StringBuffer();
+       Cursor c=db.rawQuery("select * from tbl_sdetails",null);
+       while(c.moveToNext()){
+           buffer.append("ID:"+c.getString(0)+"\t");
+           buffer.append("Name:"+c.getString(1)+"\t");
+           buffer.append("Address:"+c.getString(2)+"\t");
+   }
+       Toast.makeText(this,buffer.toString(),Toast.LENGTH_LONG).show();
+   }
+   public void stdUpdate(View view) {
+       int rid= Integer.parseInt(t3.getText().toString());
+       String name =t1.getText().toString();
+       String add =t2.getText().toString();
+       ContentValues data=new ContentValues();
+       data.put("rollno",rid);
+       data.put("name",name);
+       data.put("address",add);
+       db.update("tbl_sdetails",data,"rollno="+rid,null);
+       Toast.makeText(this,"Upadated",Toast.LENGTH_LONG).show();
+   }
+
+
+
+   public void stdDelete(View view) {
+       int rid= Integer.parseInt(t3.getText().toString());
+       ContentValues data=new ContentValues();
+       data.put("roll no",rid);
+       db.delete("tbl_sdetails","rollno"+rid,null);
+       Toast.makeText(this,"Deletedddd",Toast.LENGTH_LONG).show();
+
+
+       }
+   }
+
+DbHelper.java
+package com.example.data;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class DbHelper extends SQLiteOpenHelper {
+    public DbHelper(@Nullable Context context) {
+        super(context, "student.db", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("create table tbl_sdetails(rollno int ,name varchar(10),address varchar(50))");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+}
+
+
+
+
+
+
+
+
