@@ -1,0 +1,220 @@
+activity_main.xml
+  
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/num1"
+            />
+        <EditText
+            android:id="@+id/num1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/num1"
+            />
+        <EditText
+            android:id="@+id/num2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+        <Button
+            android:id="@+id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*" />
+        <Button
+            android:id="@+id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/equal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="=" />
+        <Button
+            android:id="@+id/C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/res"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Result: " />
+    </TableRow>
+</TableLayout>
+  
+MainActivity.java
+  
+package com.example.calculator;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    EditText ed1, ed2;
+    Button plus, minus, multiply, divide, clear, equal;
+    TextView result;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ed1 = findViewById(R.id.num1);
+        ed2 = findViewById(R.id.num2);
+        plus = findViewById(R.id.plus);
+        minus = findViewById(R.id.minus);
+        multiply = findViewById(R.id.star);
+        divide = findViewById(R.id.slash);
+        clear = findViewById(R.id.C);
+        equal = findViewById(R.id.equal);
+        result = findViewById(R.id.res);
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculate('+');
+            }
+        });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculate('-');
+            }
+        });
+
+        multiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculate('*');
+            }
+        });
+
+        divide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculate('/');
+            }
+        });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ed1.setText("");
+                ed2.setText("");
+                result.setText("Result: ");
+            }
+        });
+
+        equal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculate('=');
+            }
+        });
+    }
+
+    private void calculate(char operator) {
+        String num1Str = ed1.getText().toString();
+        String num2Str = ed2.getText().toString();
+
+        if (num1Str.isEmpty() || num2Str.isEmpty()) {
+            result.setText("Result: Please enter both numbers.");
+            return;
+        }
+
+        double num1 = Double.parseDouble(num1Str);
+        double num2 = Double.parseDouble(num2Str);
+        double resultValue = 0.0;
+
+        switch (operator) {
+            case '+':
+                resultValue = num1 + num2;
+                break;
+            case '-':
+                resultValue = num1 - num2;
+                break;
+            case '*':
+                resultValue = num1 * num2;
+                break;
+            case '/':
+                if (num2 == 0) {
+                    result.setText("Result: Cannot divide by zero.");
+                    return;
+                }
+                resultValue = num1 / num2;
+                break;
+            case '=':
+                break;
+        }
+
+        result.setText("Result: " + resultValue);
+    }
+}
+
+strings.xml
+  
+<resources>
+    <string name="app_name"> Calculator</string>
+    <string name="num1">Enter the first number</string>
+    <string name="num2">Enter the second number</string>
+    <string name="res">Result: </string>
+</resources>
+
+
