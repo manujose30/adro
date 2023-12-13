@@ -1,0 +1,118 @@
+MainActivity.java
+
+package com.solobin.grid;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.os.Bundle; 
+import android.view.Gravity; 
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView; 
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity { 
+GridView simpleGridView, simpleGridView2;
+String[] imageNames = {"Image 1", "Image 2", "Image 3", "Image 4", "Image 5", "Image 6"};
+int[] images = {R.drawable.img, R.drawable.img,R.drawable.img, R.drawable.img, R.drawable.img, R.drawable.img};
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+simpleGridView = (GridView) this.findViewById(R.id.simpleGridView); 
+ImageAdapter imageAdapter = new ImageAdapter(this, images); 
+simpleGridView.setAdapter(imageAdapter); 
+simpleGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+@Override
+public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) { 
+String imageName = imageNames[position];
+AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); 
+builder.setMessage("Image clicked: " + imageName);
+builder.setTitle("Alert");
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+public void onClick(DialogInterface dialog, int id) {
+dialog.dismiss();
+}
+});
+}
+}
+ 
+}
+});
+AlertDialog dialog = builder.create();
+dialog.show();
+ 
+ImageAdapter.java
+
+
+package com.solobin.grid; 
+import android.content.Context; 
+import android.view.View; 
+import android.view.ViewGroup;
+import android.widget.BaseAdapter; 
+import android.widget.ImageView;
+class ImageAdapter extends BaseAdapter { 
+private Context context;
+private int[] images;
+public ImageAdapter(Context context, int[] images) { 
+this.context = context;
+this.images = images;
+}
+@Override
+public int getCount() {
+return images.length;
+}
+@Override
+public Object getItem(int position) { 
+return null;
+}
+@Override
+public long getItemId(int position) {
+ 
+ 
+return 0;
+}
+@Override
+public View getView(int position, View convertView, ViewGroup parent) { 
+ImageView imageView;
+if (convertView == null) {
+imageView = new ImageView(context); 
+imageView.setLayoutParams(new ViewGroup.LayoutParams(200, 200));
+imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); 
+imageView.setPadding(8, 8, 8, 8);
+} else {
+imageView = (ImageView) convertView;
+}
+imageView.setImageResource(images[position]); return imageView;
+}
+}
+
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<GridView 
+android:id="@+id/simpleGridView" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:numColumns="2" 
+android:gravity="center" 
+android:horizontalSpacing="10dp" 
+android:verticalSpacing="10dp" 
+android:stretchMode="columnWidth"/>
+ 
+ 
+<GridView 
+android:id="@+id/simpleGridView2" 
+android:layout_width="match_parent"
+android:layout_height="wrap_content" 
+android:numColumns="2" 
+android:gravity="center" 
+android:horizontalSpacing="10dp"
+android:verticalSpacing="10dp" 
+android:stretchMode="columnWidth"/>
+</RelativeLayout>
+
