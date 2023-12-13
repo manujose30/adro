@@ -1,0 +1,105 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome Sanila!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+optionmenu.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/srch"
+        android:title="Search"
+        android:icon="@drawable/ic_baseline_search_24"/>
+    <item android:id="@+id/cloud"
+        android:title="Cloud"
+        android:icon="@drawable/ic_baseline_cloud_upload_24"/>
+    <item android:id="@+id/copy"
+        android:title="Copy"
+        android:icon="@drawable/ic_baseline_content_copy_24"/>
+    <item android:id="@+id/print"
+        android:title="Print"
+        android:icon="@drawable/ic_baseline_print_24"/>
+    <item android:id="@+id/share"
+        android:title="Share"
+        android:icon="@drawable/ic_baseline_share_24"/>
+    <item android:id="@+id/mark"
+        android:title="Bookmark"
+        android:icon="@drawable/ic_baseline_bookmark_24"/>
+</menu>
+
+MainActivity.java
+
+package com.example.resourcedirmenu;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.optionmenu,menu);
+        if(menu instanceof MenuBuilder)
+        {
+            MenuBuilder i=(MenuBuilder) menu;
+            i.setOptionalIconsVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Toast.makeText(this, "Selected Item" + item.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (item.getItemId())
+        {
+            case R.id.srch:
+                return true;
+            case R.id.cloud:
+                return true;
+            case R.id.copy:
+                return true;
+            case R.id.print:
+                return true;
+            case R.id.share:
+                return true;
+            case R.id.mark:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+}
