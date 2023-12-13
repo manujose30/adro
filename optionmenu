@@ -1,0 +1,80 @@
+MainActivity.java
+
+package com.example.newapp;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder; 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater; 
+import android.view.MenuItem; 
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+}
+@Override
+public boolean onCreateOptionsMenu(Menu menu) { 
+MenuInflater inflater =getMenuInflater(); 
+inflater.inflate(R.menu.optionmenu,menu);
+if (menu instanceof MenuBuilder){ 
+MenuBuilder m=(MenuBuilder) menu; 
+m.setOptionalIconsVisible(true);
+}
+return super.onCreateOptionsMenu(menu);} @Override
+public boolean onOptionsItemSelected(@NonNull MenuItem item) { 
+Toast.makeText(this,"select item"+item.getTitle(),Toast.LENGTH_SHORT).show(); 
+switch (item.getItemId()){
+case R.id.it1:
+return true; 
+case R.id.it2: 
+return true; 
+case R.id.it3: 
+return true;
+}
+return super.onOptionsItemSelected(item);
+}
+}
+
+
+optionmenu.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+xmlns:tools="http://schemas.android.com/tools" 
+tools:context=".MainActivity">
+<item 
+android:id="@+id/it1"
+android:icon="@drawable/ic_baseline_search_24" 
+android:title="search" />
+<item
+android:id="@+id/it2" 
+android:icon="@drawable/ic_baseline_portrait_24" 
+android:title="profile" />
+<item 
+android:id="@+id/it3" 
+android:icon="@drawable/ic_baseline_portrait_24" 
+android:title="Add" />
+</menu>
+
+
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto" 
+xmlns:tools="http://schemas.android.com/tools" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent"
+ 
+ 
+tools:context=".Innerpage">
+<EditText android:id="@+id/et"
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:ems="10" 
+android:inputType="textPersonName" 
+android:text="Hello World"
+</androidx.constraintlayout.widget.ConstraintLayout>
