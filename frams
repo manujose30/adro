@@ -1,0 +1,59 @@
+MainActivity.java
+
+package com.example.fragemt;
+import androidx.appcompat.app.AppCompatActivity; 
+import android.os.Bundle; 
+import android.view.View;
+public class MainActivity extends AppCompatActivity { 
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main); 
+findViewById(R.id.button).setOnClickListener(new View.OnClickListener() { 
+@Override public void onClick(View v) { 
+getSupportFragmentManager().beginTransaction()
+.replace(R.id.fragment_container, new fragment1())
+.commit();
+}});
+findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+@Override public void onClick(View v) { 
+getSupportFragmentManager().beginTransaction()
+.replace(R.id.fragment_container, new fragment2())
+.commit();}});
+}}
+
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent">
+<Button
+android:id="@+id/button"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Fragment 1" />
+<Button
+android:id="@+id/button2" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content"
+android:layout_below="@id/button"
+android:text="Fragment 2" />
+<FrameLayout 
+android:id="@+id/fragment_container" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:layout_margin="16dp" />
+</FrameLayout>
+
+Fragment1.java
+
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+return inflater.inflate(R.layout.fragment_blank, container, false);
+}
+
+Fragment2.java
+
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+return inflater.inflate(R.layout.fragment_fragment2, container, false);
+}
