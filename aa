@@ -1,0 +1,103 @@
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier,plot_tree
+from sklearn.metrics import accuracy_score,classification_report
+from matplotlib import pyplot as plt
+iris=load_iris()
+x=iris.data
+y=iris.target
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+dt=DecisionTreeClassifier(max_depth=3)
+dt.fit(x_train,y_train)
+
+print(dt.predict(x_test))
+D=dt.predict(x_test)
+
+result=accuracy_score(y_test,D)
+print("Accuracy= ",result)
+
+cr=classification_report(y_test,D)
+print("Classification Report: ",cr)
+
+plt.figure(figsize=(15,20))
+plot_tree(dt,filled=True,feature_names=iris.feature_names,class_names=iris.target_names)
+plt.title("Decission Tree")
+plt.show()
+
+//kmean
+from sklearn.datasets import load_iris 
+from sklearn.cluster import KMeans 
+import matplotlib.pyplot as plt
+iris = load_iris() x = iris.data
+y = iris.target
+kmeans = KMeans(n_clusters=3, random_state=42) kmeans.fit(x)
+cluster_labels = kmeans.labels_ print(cluster_labels)
+centroids = kmeans.cluster_centers_ print(centroids)
+plt.scatter(x[:, 0], x[:, 1], c=cluster_labels, cmap='viridis', marker='o', edgecolors='black') plt.scatter(centroids[:, 0], centroids[:, 1], marker="*", s=200, c='red', label='Centroids') plt.xlabel(iris.feature_names[0])
+plt.ylabel(iris.feature_names[1]) plt.title('KMeans Cluster of Iris Dataset') plt.legend()
+plt.show()
+//knn
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+
+iris=load_iris()
+x=iris.data
+y=iris.target
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+knn=KNeighborsClassifier(n_neighbors=7)
+knn.fit(x_train,y_train)
+print(knn.predict(x_test))
+V=knn.predict(x_test)
+result=accuracy_score(y_test,V)
+print("Accuracy= ",result)
+
+//mut
+import pandas as pd
+from sklearn.datasets import fetch_california_housing
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+california_housing=fetch_california_housing()
+df=pd.DataFrame(data=california_housing.data,columns=california_housing.feature_names)
+df['Target']=california_housing.target
+x=df.drop('Target',axis=1)
+y=df['Target']
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+model = LinearRegression()
+model.fit(x_train, y_train)
+predictions = model.predict(x_test)
+mse = mean_squared_error(y_test, predictions)
+print(f"Mean Squared Error: {mse}")
+
+//sim
+import numpy as np
+import matplotlib.pyplot as plt
+def estimate_coef(x,y):
+     n=np.size(x)
+     m_x=np.mean(x)
+     m_y=np.mean(y)
+     SS_xy =np.sum(y*x) - n*m_y*m_x
+     SS_xx =np.sum(x*x) - n*m_x*m_x
+     b_1=SS_xy /SS_xx
+     b_0=m_y - b_1*m_x
+     return(b_0,b_1)
+def plot_regression_line(x,y,b):
+     plt.scatter(x,y,color="y",marker="o",s=30)
+     y_pred= b[0] + b[1]*x
+     plt.plot(x,y_pred,color = "b")
+     plt.xlabel('study hours')
+     plt.ylabel('exam scores')
+     plt.show()
+def main():
+    x=np.array([2,3,4,5,6])
+    y=np.array([60,75,85,90,95])
+    b = estimate_coef(x, y)
+    print("Estimated coefficients:\nb_0 = {}  \
+          \nb_1 = {}".format(b[0], b[1]))
+    plot_regression_line(x, y, b)
+if __name__ == "__main__":
+    main()
