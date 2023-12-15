@@ -1,0 +1,50 @@
+import numpy as np
+matrix_A = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+matrix_B = np.array([[9, 8, 7],[6, 5, 4], [3, 2, 1]])
+matrix_sum = matrix_A + matrix_B
+matrix_product = matrix_A * matrix_B
+matrix_dot = np.dot(matrix_A, matrix_B)
+matrix_A_transpose = matrix_A.T
+determinant_B = np.linalg.det(matrix_B)
+eigenvalues_A, eigenvectors_A = np.linalg.eig(matrix_A)
+U, S, Vt = np.linalg.svd(matrix_A)
+print("Matrix Sum:")
+print(matrix_sum)
+print("\nMatrix Element-wise Product:")
+print(matrix_product)
+print("\nMatrix Dot Product:")
+print(matrix_dot)
+print("\nMatrix A Transpose:")
+print(matrix_A_transpose)
+print("\nDeterminant of Matrix B:", determinant_B)
+print("\nEigenvalues of Matrix A:")
+print(eigenvalues_A)
+print("\nEigenvectors of Matrix A:")
+print(eigenvectors_A)
+print("\nSingular Value Decomposition (SVD) of Matrix A:")
+print("U:")
+print(U)
+print("S:")
+print(S)
+print("Vt:")
+print(Vt)
+
+
+import pandas as pd 
+student_data={'Student_id':[25,30,35,34,12,23],'Name':['Alice','Bob','Charlie','Neha','Arya','Anu'],'Age':[18,20,25,12,23,33],'GPA':[85,90,78,56,77,76],} 
+df = pd.DataFrame(student_data) 
+print("The dataframe is:")
+print(df) 
+print("")
+print("Rows of student age above 20 : ")
+ages = df[(df['Age'] >= 20)] 
+print(ages) print("") 
+print("Average of the GPA :")
+print(df['GPA'].mean())
+print("") 
+print("GPA in descending order :")
+dsc = df.sort_values(by=['GPA'], ascending=[False]) 
+print(dsc.head(5)) 
+print("") 
+result = df.groupby('Age')['GPA'].mean().reset_index() 
+print(result)
